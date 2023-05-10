@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # application
     'accounts.apps.AccountsConfig',
     # dj rest auth
-    'dj_rest_auth'
+    'dj_rest_auth',
     # a
     'django.contrib.sites',
     'allauth',
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 ]
 
-SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,3 +138,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SITE_ID = 1
+
+# For demo purposes only. Use a white list in the real world.
+CORS_ORIGIN_ALLOW_ALL = True
+
+REST_AUTH = {
+    'SESSION_LOGIN': True,
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'auth',
+    'JWT_AUTH_HTTPONLY': False,
+}
