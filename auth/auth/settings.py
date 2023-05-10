@@ -146,10 +146,15 @@ SITE_ID = 1
 
 # For demo purposes only. Use a white list in the real world.
 CORS_ORIGIN_ALLOW_ALL = True
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
+}
 REST_AUTH = {
     'SESSION_LOGIN': True,
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'auth',
     'JWT_AUTH_HTTPONLY': False,
 }
+
