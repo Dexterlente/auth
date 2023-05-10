@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # application
     'accounts.apps.AccountsConfig',
+    # dj rest auth
+    'dj_rest_auth'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'jwt-auth',
+}
