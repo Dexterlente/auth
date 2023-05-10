@@ -20,8 +20,6 @@ from django.urls import path, include, re_path
 urlpatterns = [
     path('admin/', admin.site.urls),
     # all auth urls because it was using all auth
-    # path('accounts/', include('allauth.urls')),
+    path('accounts/', include('accounts.urls')),
     # re_path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
