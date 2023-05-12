@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 
 
+# igot sick im sorry
 urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
