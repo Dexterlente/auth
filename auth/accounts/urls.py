@@ -3,6 +3,7 @@ from . import views
 
 
 # igot sick im sorry
+# 13 05 still sick
 urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
