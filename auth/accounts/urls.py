@@ -5,6 +5,7 @@ from . import views
 # igot sick im sorry
 # 13 05 still sick
 # 14 damn it still sick
+# 15 im tired
 urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
