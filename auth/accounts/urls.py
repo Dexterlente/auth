@@ -8,6 +8,7 @@ from . import views
 # 15 im tired
 # 16 maybe last
 # 17 im ok but still
+# 19 maybe last
 urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
