@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
+# good na to
 urlpatterns = [
     path('admin/', admin.site.urls),
     # all auth urls because it was using all auth
