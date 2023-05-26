@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
 class CustomRegisterSerializer(RegisterSerializer):
