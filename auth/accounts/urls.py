@@ -12,6 +12,7 @@ from . import views
 # 21
 # D
 # 22
+# 26
 urlpatterns = [
     # path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
