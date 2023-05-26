@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # all auth urls because it was using all auth
     path('accounts/', include('accounts.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    # path('dj-rest-auth/', include('dj_rest_auth.urls')),
     # re_path('dj-rest-auth/', include('dj_rest_auth.urls')),
 ]
