@@ -15,6 +15,7 @@ from . import views
 # 26
 urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path("dj-rest-auth/registration/", views.RegisterAPIView.as_view(), name="account_signup"),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
     # path('fb-register/', views.FacebookAuthView.as_view(), name='fb_auth'),
