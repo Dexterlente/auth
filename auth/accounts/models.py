@@ -23,8 +23,8 @@ from django.contrib.auth.models import AbstractUser
 
 from .signals import register_signal
 from .managers import NationalIDImageManager
-from core.models import TimeStampedModel
-from core.handle_images import compress_image
+# from core.models import TimeStampedModel
+from .handle_images import compress_image
 
 # gonna put comments
 # User = get_user_model()
@@ -41,7 +41,13 @@ def user_directory_path(instance, filename):
 def national_image_path(instance, filename):
     return f"national/{instance.user.username}/images/{filename}"
 
-# time stamped model
+# time stamped 
+class TimeStampedModel(models.Model):
+    created = models.DateTimeField(db_index=True, auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 # profile models
 class Profile(TimeStampedModel):
     GENDER_MALE = "m"
