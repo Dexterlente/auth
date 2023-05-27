@@ -21,7 +21,7 @@ urlpatterns = [
     # path('fb-register/', views.FacebookAuthView.as_view(), name='fb_auth'),
     path('dj-rest-auth/twitter/', views.TwitterLogin.as_view(), name='twitter_login'),
     path('dj-rest-auth/google/', views.GoogleLogin.as_view(), name='google_login'),
-
+# TAMAD NA TAMAD AKO
     # docs
     # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
     # path('password/reset/confirm/', PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
