@@ -8,6 +8,8 @@ from rest_framework.validators import UniqueValidator
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from rest_framework import exceptions
+from django.contrib.auth import authenticate
+
 
 # grace imperio lente
 class UserSerializer(serializers.ModelSerializer):

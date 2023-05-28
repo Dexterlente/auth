@@ -183,3 +183,7 @@ AUTH_USER_MODEL = 'accounts.User'
 # TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 # TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 # TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER')
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Add any additional authentication backends here
+]

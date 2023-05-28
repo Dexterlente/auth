@@ -60,7 +60,7 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 class LoginAPIView(LoginView):
-    # queryset = ""
+    queryset = ""
     # permission_classes = AllowAny
     serializer_class = LoginSerializer
 
