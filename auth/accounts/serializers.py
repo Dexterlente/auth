@@ -10,6 +10,16 @@ from django.conf import settings
 from rest_framework import exceptions
 
 # grace imperio lente
+class UserSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.ImageField(source="profile.profile_picture")
+    gender = serializers.CharField(source="profile.gender")
+    about = serializers.CharField(source="profile.about")
+    phone_number = PhoneNumberField(source="profile.phone_number")
+    online = serializers.BooleanField(source="profile.online")
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=False, allow_blank=True)
@@ -119,30 +129,21 @@ class LoginSerializer(serializers.Serializer):
                 if not email_address.verified:
                     raise serializers.ValidationError(_("E-mail is not verified."))
 
-        # If required, is the phone number verified?
-        try:
-            phone_number = user.sms  # .get(phone=user.profile.phone_number)
-        except SMSVerification.DoesNotExist:
-            raise serializers.ValidationError(
-                _("This account don't have Phone Number!")
-            )
-        if not phone_number.verified:
-            raise serializers.ValidationError(_("Phone Number is not verified."))
+        # # If required, is the phone number verified?
+        # try:
+        #     phone_number = user.sms  # .get(phone=user.profile.phone_number)
+        # except SMSVerification.DoesNotExist:
+        #     raise serializers.ValidationError(
+        #         _("This account don't have Phone Number!")
+        #     )
+        # if not phone_number.verified:
+        #     raise serializers.ValidationError(_("Phone Number is not verified."))
 
         attrs["user"] = user
         return attrs
 
         
-class UserSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(source="profile.profile_picture")
-    gender = serializers.CharField(source="profile.gender")
-    about = serializers.CharField(source="profile.about")
-    phone_number = PhoneNumberField(source="profile.phone_number")
-    online = serializers.BooleanField(source="profile.online")
 
-    class Meta:
-        model = User
-        fields = '__all__'
 
 # custom register fixed
 class CustomRegisterSerializer(RegisterSerializer):
