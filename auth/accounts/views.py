@@ -15,6 +15,39 @@ from dj_rest_auth.registration.views import RegisterView, VerifyEmailView
 from accounts.serializers import CustomRegisterSerializer
 from django.conf import settings
 from allauth.account.models import EmailAddress, EmailConfirmationHMAC
+from dj_rest_auth.registration.serializers import VerifyEmailSerializer
+from dj_rest_auth.serializers import JWTSerializer
+from dj_rest_auth.utils import jwt_encode
+from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User, Permission
+from django.utils.translation import gettext_lazy as _
+from .models import Profile, Address, SMSVerification, DeactivateUser, NationalIDImage
+# from .serializers import (
+#     ProfileSerializer,
+#     UserSerializer,
+#     AddressSerializer,
+#     CreateAddressSerializer,
+#     SMSVerificationSerializer,
+#     SMSPinSerializer,
+#     DeactivateUserSerializer,
+#     PermissionSerializer,
+#     PasswordChangeSerializer,
+#     UserPermissionSerializer,
+#     NationalIDImageSerializer,
+# )
+# from .send_mail import send_register_mail, send_reset_password_email
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.debug import sensitive_post_parameters
+from allauth.account.utils import send_email_confirmation
+
+from rest_framework.decorators import permission_classes
+
+
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
@@ -29,10 +62,21 @@ class RegisterAPIView(RegisterView):
     def dispatch(self, *args, **kwargs):
         return super(RegisterAPIView, self).dispatch(*args, **kwargs)
 
+    # def get_response_data(self, user):
+    #     if getattr(settings, "REST_USE_JWT", False):
+    #         data = {"user": user, "token": self.token}
+    #     return JWTSerializer(data).data
     def get_response_data(self, user):
+        data = {"user": user}
+
         if getattr(settings, "REST_USE_JWT", False):
-            data = {"user": user, "token": self.token}
-        return JWTSerializer(data).data
+            refresh = RefreshToken.for_user(user)
+            data["token"] = {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }
+
+        return data
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -58,6 +102,7 @@ class RegisterAPIView(RegisterView):
         # send_register_mail.delay(user, key)
         print("account-confirm-email/" + key)
         return user
+
 
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
