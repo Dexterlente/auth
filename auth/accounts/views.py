@@ -12,7 +12,7 @@ from rest_framework.permissions import AllowAny
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
 from dj_rest_auth.registration.views import RegisterView, VerifyEmailView
-from accounts.serializers import CustomRegisterSerializer
+from accounts.serializers import CustomRegisterSerializer, LoginSerializer
 from django.conf import settings
 from allauth.account.models import EmailAddress, EmailConfirmationHMAC
 from dj_rest_auth.registration.serializers import VerifyEmailSerializer
@@ -46,12 +46,52 @@ from django.views.decorators.debug import sensitive_post_parameters
 from allauth.account.utils import send_email_confirmation
 
 from rest_framework.decorators import permission_classes
+from dj_rest_auth.views import (
+    LoginView,
+    PasswordResetView,
+    PasswordResetConfirmView,
+    PasswordChangeView,
+    LogoutView,
+)
 
 
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
 )
+
+class LoginAPIView(LoginView):
+    queryset = ""
+    permission_classes = AllowAny
+    serializer_class = LoginSerializer
+
+    def get_response(self):
+        serializer_class = self.get_response_serializer()
+        if getattr(settings, "REST_USE_JWT", False):
+            data = {"user": self.user, "token": self.token}
+            serializer = serializer_class(
+                instance=data, context={"request": self.request}
+            )
+        else:
+            serializer = serializer_class(
+                instance=self.token, context={"request": self.request}
+            )
+        response = Response(serializer.data, status=status.HTTP_200_OK)
+
+        deactivate = DeactivateUser.objects.filter(user=self.user, deactive=True)
+        if deactivate:
+            deactivate.update(deactive=False)
+        return response
+
+    def post(self, request, *args, **kwargs):
+        self.request = request
+        self.serializer = self.get_serializer(
+            data=self.request.data, context={"request": request}
+        )
+        self.serializer.is_valid(raise_exception=True)
+        self.login()
+        return self.get_response()
+# nothing wrong on login i suppose
 
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterAPIView(RegisterView):
