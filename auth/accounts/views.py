@@ -62,17 +62,6 @@ class RegisterAPIView(RegisterView):
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
 
-    
-# class FacebookAuthView(APIView):
-#     def post(self, request):
-#         access_token = request.POST.get('access_token')
-#         if access_token:
-#             # Perform registration or login logic here using the access_token
-#             # Return appropriate response indicating success or failure
-#             return Response({'message': 'Registration or login successful'})
-#         else:
-#             return Response({'message': 'Access token is required'}, status=400)
-
 class TwitterLogin(SocialLoginView):
     serializer_class = TwitterLoginSerializer
     adapter_class = TwitterOAuthAdapter
