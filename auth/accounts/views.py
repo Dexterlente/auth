@@ -66,8 +66,9 @@ class RegisterAPIView(RegisterView):
     #     if getattr(settings, "REST_USE_JWT", False):
     #         data = {"user": user, "token": self.token}
     #     return JWTSerializer(data).data
+
     def get_response_data(self, user):
-        data = {"user": user}
+        data = {"user": user.pk}
 
         if getattr(settings, "REST_USE_JWT", False):
             refresh = RefreshToken.for_user(user)

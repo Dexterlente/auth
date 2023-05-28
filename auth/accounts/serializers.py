@@ -5,6 +5,16 @@ from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework.validators import UniqueValidator
 from accounts.models import Profile, User
 
+class UserSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.ImageField(source="profile.profile_picture")
+    gender = serializers.CharField(source="profile.gender")
+    about = serializers.CharField(source="profile.about")
+    phone_number = PhoneNumberField(source="profile.phone_number")
+    online = serializers.BooleanField(source="profile.online")
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 # custom register fixed
 class CustomRegisterSerializer(RegisterSerializer):
@@ -42,13 +52,20 @@ class CustomRegisterSerializer(RegisterSerializer):
     def custom_signup(self, request, user):
         self.create_profile(user, self.get_cleaned_data_profile())
 
-class UserSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(source="profile.profile_picture")
-    gender = serializers.CharField(source="profile.gender")
-    about = serializers.CharField(source="profile.about")
-    phone_number = PhoneNumberField(source="profile.phone_number")
-    online = serializers.BooleanField(source="profile.online")
+    # def get_response_data(self, user):
+    #     serializer = UserSerializer(user)
+    #     serialized_user = serializer.data
 
-    class Meta:
-        model = User
-        fields = '__all__'
+    #     data = {"user": serialized_user}
+
+    #     if getattr(settings, "REST_USE_JWT", False):
+    #         refresh = RefreshToken.for_user(user)
+    #         data["token"] = {
+    #             "refresh": str(refresh),
+    #             "access": str(refresh.access_token),
+    #         }
+
+    #     return data
+
+
+
