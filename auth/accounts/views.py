@@ -13,6 +13,8 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
 from dj_rest_auth.registration.views import RegisterView, VerifyEmailView
 from accounts.serializers import CustomRegisterSerializer
+from django.conf import settings
+from allauth.account.models import EmailAddress, EmailConfirmationHMAC
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
