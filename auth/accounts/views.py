@@ -55,14 +55,13 @@ from dj_rest_auth.views import (
 )
 
 
-
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
 )
 
 class LoginAPIView(LoginView):
     queryset = ""
-    permission_classes = AllowAny
+    # permission_classes = AllowAny
     serializer_class = LoginSerializer
 
     def get_response(self):

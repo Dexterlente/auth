@@ -6,7 +6,10 @@ from rest_framework.validators import UniqueValidator
 from accounts.models import Profile, User
 from rest_framework.validators import UniqueValidator
 from rest_framework.exceptions import ValidationError
+from django.conf import settings
+from rest_framework import exceptions
 
+# grace imperio lente
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=False, allow_blank=True)

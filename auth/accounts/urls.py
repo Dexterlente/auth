@@ -14,6 +14,7 @@ from . import views
 # 22
 # 26
 urlpatterns = [
+    path("login/", views.LoginAPIView.as_view(), name="account_login"),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path("dj-rest-auth/registration/", views.RegisterAPIView.as_view(), name="account_signup"),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),

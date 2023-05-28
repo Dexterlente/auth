@@ -167,7 +167,10 @@ REST_AUTH = {
     'JWT_AUTH_HTTPONLY': False,
 }
 
-
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+    # 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+}
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
