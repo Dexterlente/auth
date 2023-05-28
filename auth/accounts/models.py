@@ -29,7 +29,7 @@ from .handle_images import compress_image
 # gonna put comments
 # User = get_user_model()
 # change to abstractuser
-class User (AbstractUser):
+class User(AbstractUser):
     pass
 
 # directory path

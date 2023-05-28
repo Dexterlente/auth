@@ -3,7 +3,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework.validators import UniqueValidator
-from accounts.models import Profile
+from accounts.models import Profile, User
 
 
 # custom register fixed
@@ -42,3 +42,13 @@ class CustomRegisterSerializer(RegisterSerializer):
     def custom_signup(self, request, user):
         self.create_profile(user, self.get_cleaned_data_profile())
 
+class UserSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.ImageField(source="profile.profile_picture")
+    gender = serializers.CharField(source="profile.gender")
+    about = serializers.CharField(source="profile.about")
+    phone_number = PhoneNumberField(source="profile.phone_number")
+    online = serializers.BooleanField(source="profile.online")
+
+    class Meta:
+        model = User
+        fields = '__all__'
