@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
+    # phone
+    'phonenumber_field',
 ]
 
 
@@ -164,6 +166,7 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE': 'auth',
     'JWT_AUTH_HTTPONLY': False,
 }
+
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',

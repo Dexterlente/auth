@@ -1,6 +1,11 @@
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework import serializers
+from phonenumber_field.serializerfields import PhoneNumberField
+from rest_framework.validators import UniqueValidator
+from accounts.models import Profile
 
+# custom register fixed
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True, write_only=True)
     last_name = serializers.CharField(required=True, write_only=True)
@@ -35,3 +40,4 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     def custom_signup(self, request, user):
         self.create_profile(user, self.get_cleaned_data_profile())
+

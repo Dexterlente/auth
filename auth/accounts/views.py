@@ -12,6 +12,7 @@ from rest_framework.permissions import AllowAny
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
 from dj_rest_auth.registration.views import RegisterView, VerifyEmailView
+from accounts.serializers import CustomRegisterSerializer
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
@@ -20,6 +21,7 @@ sensitive_post_parameters_m = method_decorator(
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterAPIView(RegisterView):
     permission_classes = [AllowAny]
+    serializer_class = CustomRegisterSerializer
 
     @sensitive_post_parameters_m
     def dispatch(self, *args, **kwargs):
@@ -54,7 +56,7 @@ class RegisterAPIView(RegisterView):
         # send_register_mail.delay(user, key)
         print("account-confirm-email/" + key)
         return user
-        
+
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
 
