@@ -163,6 +163,7 @@ REST_FRAMEWORK = {
     )
 }
 REST_AUTH = {
+    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.LoginSerializer',
     'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
     'SESSION_LOGIN': True,
     'USE_JWT': True,
