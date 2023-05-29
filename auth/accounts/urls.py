@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from dj_rest_auth.views import LogoutView
 
 
 # igot sick im sorry
@@ -22,6 +23,10 @@ urlpatterns = [
     # path('fb-register/', views.FacebookAuthView.as_view(), name='fb_auth'),
     path('dj-rest-auth/twitter/', views.TwitterLogin.as_view(), name='twitter_login'),
     path('dj-rest-auth/google/', views.GoogleLogin.as_view(), name='google_login'),
+    # dj-rest-auth logout
+    path('logout/', LogoutView.as_view(), name='rest_logout'),
+
+    
 # TAMAD NA TAMAD AKO
     # docs
     # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
