@@ -146,7 +146,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SITE_ID = 1
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -156,6 +156,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional'
 CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     )
 }
@@ -167,10 +169,10 @@ REST_AUTH = {
     'JWT_AUTH_HTTPONLY': False,
 }
 
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
-    # 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
-}
+# REST_AUTH_SERIALIZERS = {
+#     'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+#     # 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+# }
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
@@ -183,7 +185,12 @@ AUTH_USER_MODEL = 'accounts.User'
 # TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 # TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 # TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER')
+
+
 AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
-    # Add any additional authentication backends here
+
+    # allauth specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
