@@ -24,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField(required=False, allow_blank=True)
     username = serializers.CharField(required=False, allow_blank=True)
     password = serializers.CharField(style={"input_type": "password"})
 
@@ -131,7 +132,7 @@ class LoginSerializer(serializers.Serializer):
                 if not email_address.verified:
                     raise serializers.ValidationError(_("E-mail is not verified."))
 
-        # # If required, is the phone number verified?
+        # If required, is the phone number verified?
         # try:
         #     phone_number = user.sms  # .get(phone=user.profile.phone_number)
         # except SMSVerification.DoesNotExist:

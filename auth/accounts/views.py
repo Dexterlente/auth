@@ -44,7 +44,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.debug import sensitive_post_parameters
 from allauth.account.utils import send_email_confirmation
-
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 from dj_rest_auth.views import (
     LoginView,
@@ -60,7 +60,7 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 class LoginAPIView(LoginView):
-    queryset = ""
+    # queryset = ""
     # permission_classes = AllowAny
     serializer_class = LoginSerializer
 
@@ -90,7 +90,6 @@ class LoginAPIView(LoginView):
         self.serializer.is_valid(raise_exception=True)
         self.login()
         return self.get_response()
-# nothing wrong on login i suppose
 
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterAPIView(RegisterView):

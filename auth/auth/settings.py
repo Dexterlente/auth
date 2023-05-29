@@ -149,7 +149,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# allow username or email
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 # For demo purposes only. Use a white list in the real world.
@@ -169,14 +170,14 @@ REST_AUTH = {
     'JWT_AUTH_HTTPONLY': False,
 }
 
-# REST_AUTH_SERIALIZERS = {
-#     'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
-#     # 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
-# }
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+    # 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+}
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
-
+# REST_USE_JWT = True
 # allow cors
 CORS_ALLOW_ALL_ORIGINS = True
 # dont forget this
