@@ -58,28 +58,18 @@ sensitive_post_parameters_m = method_decorator(
 class LoginAPIView(LoginView):
 # need to fix this overide
 
-    # queryset = ""
-    # permission_classes = (AllowAny,)
-    # serializer_class = LoginSerializer
+    queryset = ""
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
 
 
-    # def get_response(self):
-    #     serializer_class = self.get_response_serializer()
-    #     if getattr(settings, "REST_USE_JWT", False):
-    #         data = {"user": self.user, "token": self.token}
-    #         serializer = serializer_class(
-    #             instance=data, context={"request": self.request}
-    #         )
-    #     else:
-    #         serializer = serializer_class(
-    #             instance=self.token, context={"request": self.request}
-    #         )
-    #     response = Response(serializer.data, status=status.HTTP_200_OK)
-
-    #     deactivate = DeactivateUser.objects.filter(user=self.user, deactive=True)
-    #     if deactivate:
-    #         deactivate.update(deactive=False)
-    #     return response
+    def get_response(self):
+        response = super().get_response()
+        
+        deactivate = DeactivateUser.objects.filter(user=self.user, deactive=True)
+        if deactivate:
+            deactivate.update(deactive=False)
+        return response
 
     def post(self, request, *args, **kwargs):
         self.request = request
