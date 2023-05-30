@@ -133,14 +133,14 @@ class LoginSerializer(serializers.Serializer):
                     raise serializers.ValidationError(_("E-mail is not verified."))
 
         # If required, is the phone number verified?
-        # try:
-        #     phone_number = user.sms  # .get(phone=user.profile.phone_number)
-        # except SMSVerification.DoesNotExist:
-        #     raise serializers.ValidationError(
-        #         _("This account don't have Phone Number!")
-        #     )
-        # if not phone_number.verified:
-        #     raise serializers.ValidationError(_("Phone Number is not verified."))
+        try:
+            phone_number = user.sms  # .get(phone=user.profile.phone_number)
+        except SMSVerification.DoesNotExist:
+            raise serializers.ValidationError(
+                _("This account don't have Phone Number!")
+            )
+        if not phone_number.verified:
+            raise serializers.ValidationError(_("Phone Number is not verified."))
 
         attrs["user"] = user
         return attrs
@@ -153,23 +153,23 @@ class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True, write_only=True)
     last_name = serializers.CharField(required=True, write_only=True)
     birth_date = serializers.CharField(required=True, write_only=True)
-    # phone_number = PhoneNumberField(
-    #     required=True,
-    #     write_only=True,
-    #     validators=[
-    #         UniqueValidator(
-    #             queryset=Profile.objects.all(),
-    #             message=_("A user is already registered with this phone number."),
-    #         )
-    #     ],
-    # )
+    phone_number = PhoneNumberField(
+        required=True,
+        write_only=True,
+        validators=[
+            UniqueValidator(
+                queryset=Profile.objects.all(),
+                message=_("A user is already registered with this phone number."),
+            )
+        ],
+    )
 
     def get_cleaned_data_profile(self):
         return {
             "first_name": self.validated_data.get("first_name", ""),
             "last_name": self.validated_data.get("last_name", ""),
             "birth_date": self.validated_data.get("birth_date", ""),
-            # "phone_number": self.validated_data.get("phone_number", ""),
+            "phone_number": self.validated_data.get("phone_number", ""),
         }
 
     def create_profile(self, user, validated_data):
@@ -178,7 +178,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.save()
 
         user.profile.birth_date = self.validated_data.get("birth_date")
-        # user.profile.phone_number = self.validated_data.get("phone_number")
+        user.profile.phone_number = self.validated_data.get("phone_number")
         user.profile.save()
 
     def custom_signup(self, request, user):
