@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
-from dj_rest_auth.views import LogoutView
+from dj_rest_auth.views import LogoutView, PasswordResetView, PasswordResetConfirmView
 
 
 # igot sick im sorry
@@ -25,8 +25,12 @@ urlpatterns = [
     path('dj-rest-auth/google/', views.GoogleLogin.as_view(), name='google_login'),
     # dj-rest-auth logout
     path('logout/', LogoutView.as_view(), name='rest_logout'),
-
-    
+    # reset pass
+    # path('dj-rest-auth/password/reset/', PasswordResetView.as_view(), name='password_reset'),
+    # path('dj-rest-auth/password/reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    re_path(r'^dj-rest-auth/password/reset/$', PasswordResetView.as_view(), name='password_reset'),
+    re_path(r'^authentication/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
+     PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 # TAMAD NA TAMAD AKO
     # docs
     # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
