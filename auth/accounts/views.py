@@ -22,7 +22,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User, Permission
 from django.utils.translation import gettext_lazy as _
-from .models import Profile, Address, SMSVerification, DeactivateUser, NationalIDImage
+from .models import User, Profile, Address, SMSVerification, DeactivateUser, NationalIDImage
 # from .serializers import (
 #     ProfileSerializer,
 #     UserSerializer,
@@ -36,7 +36,7 @@ from .models import Profile, Address, SMSVerification, DeactivateUser, NationalI
 #     UserPermissionSerializer,
 #     NationalIDImageSerializer,
 # )
-# from .send_mail import send_register_mail, send_reset_password_email
+from .send_mail import send_register_mail, send_reset_password_email
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.utils import timezone
@@ -47,9 +47,9 @@ from allauth.account.utils import send_email_confirmation
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 # from dj_rest_auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LogoutView,
-from dj_rest_auth.views import LoginView
+from dj_rest_auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 
-
+from django.contrib.auth import get_user_model
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
@@ -143,3 +143,33 @@ class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Gran
     adapter_class = GoogleOAuth2Adapter
     callback_url = "https://www.google.com"
     client_class = OAuth2Client
+
+class ThePasswordResetView(PasswordResetView):
+    def post(self, request, *args, **kwargs):
+
+        email = request.data.get("email", None)
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise NotAcceptable(_("Please enter a valid email."))
+        #     serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+
+        # serializer.save()
+        send_reset_password_email.delay(user)
+        return Response(
+            {"detail": _("Password reset e-mail has been sent.")},
+            status=status.HTTP_200_OK,
+        )
+# class ThePasswordResetView(PasswordResetView):
+#     def post(self, request, *args, **kwargs):
+#         email = request.data.get("email", None)
+#         try:
+#             user = get_user_model().objects.get(email=email)
+#         except get_user_model().DoesNotExist:
+#             raise NotAcceptable(_("Please enter a valid email."))
+#         send_reset_password_email.delay(user.id)
+#         return Response(
+#             {"detail": _("Password reset e-mail has been sent.")},
+#             status=status.HTTP_200_OK,
+#         )
