@@ -16,14 +16,16 @@ from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerifica
 # 22
 # 26
 urlpatterns = [
+    # custom login
     path("login/", views.LoginAPIView.as_view(), name="account_login"),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    # custom registration
     path("dj-rest-auth/registration/", views.RegisterAPIView.as_view(), name="account_signup"),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
         # verify
     path("/dj-rest-auth/registration/verify-email/", VerifyEmailView.as_view(), name='account_email_verification_sent'),
     path("/dj-rest-auth/registration/resend-email/", ResendEmailVerificationView.as_view(), name='account_resend_email_verification_sent'),
-
+    # social accounts login
     path('dj-rest-auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
     path('dj-rest-auth/twitter/', views.TwitterLogin.as_view(), name='twitter_login'),
     path('dj-rest-auth/google/', views.GoogleLogin.as_view(), name='google_login'),
