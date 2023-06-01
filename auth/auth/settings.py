@@ -209,5 +209,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
 
 # Celery Settings
-BROKER_URL = 'redis://localhost:6379/0'
-BACKEND_URL = 'redis://localhost:6379/1'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BACKEND_URL = 'redis://localhost:6379/1'
