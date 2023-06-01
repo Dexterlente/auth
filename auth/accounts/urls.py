@@ -26,8 +26,8 @@ urlpatterns = [
     # dj-rest-auth logout
     path('logout/', LogoutView.as_view(), name='rest_logout'),
     # reset pass
-    # re_path(r'^dj-rest-auth/password/reset/$', PasswordResetView.as_view(), name='password_reset'),
-    re_path(r'^password/reset/$', views.ThePasswordResetView.as_view(), name='password_reset'),
+    re_path(r'^dj-rest-auth/password/reset/$', PasswordResetView.as_view(), name='password_reset'),
+    # re_path(r'^password/reset/$', views.ThePasswordResetView.as_view(), name='password_reset'),
     re_path(r'^authentication/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
      PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 

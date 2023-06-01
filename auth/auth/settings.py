@@ -207,3 +207,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_HOST_PASSWORD = 'your-email-password'
 # EMAIL_USE_TLS = True
 # DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
+
+# Celery Settings
+BROKER_URL = 'redis://localhost:6379/0'
+BACKEND_URL = 'redis://localhost:6379/1'
