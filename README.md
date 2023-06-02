@@ -20,13 +20,13 @@ an api build with serializers for your frontend of your choice
     # social accounts login
     'dj-rest-auth/facebook/'
     'dj-rest-auth/twitter/'
-    p'dj-rest-auth/google/'
+    'dj-rest-auth/google/'
     # dj-rest-auth logout
     'logout/'
     # reset pass
 
-    password/reset/$'
-  authentication/password/reset/confirm/
+    password/reset/
+    authentication/password/reset/confirm/'
 #####  phone verification endpoint
     verify-sms/<int:pk>/", views.VerifySMSView.as_view()),
     resend-sms/", views.ResendSMSAPIView.as_view()),
