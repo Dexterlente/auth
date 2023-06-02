@@ -28,8 +28,9 @@ an api build with serializers for your frontend of your choice
     password/reset/
     authentication/password/reset/confirm/'
 #####  phone verification endpoint
-    verify-sms/<int:pk>/", views.VerifySMSView.as_view()),
-    resend-sms/", views.ResendSMSAPIView.as_view()),
+    verify-sms/<int:pk>/"
+    resend-sms/"
+    Twilio api is used for phone verification
 ###### auth users
     'user/'
     password/change/'
