@@ -23,8 +23,8 @@ urlpatterns = [
     path("dj-rest-auth/registration/", views.RegisterAPIView.as_view(), name="account_signup"),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
         # verify
-    path("/dj-rest-auth/registration/verify-email/", VerifyEmailView.as_view(), name='account_email_verification_sent'),
-    path("/dj-rest-auth/registration/resend-email/", ResendEmailVerificationView.as_view(), name='account_resend_email_verification_sent'),
+    path("dj-rest-auth/registration/verify-email/", VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    path("dj-rest-auth/registration/resend-email/", ResendEmailVerificationView.as_view(), name='account_resend_email_verification_sent'),
     # social accounts login
     path('dj-rest-auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
     path('dj-rest-auth/twitter/', views.TwitterLogin.as_view(), name='twitter_login'),
