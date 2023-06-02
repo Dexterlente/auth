@@ -22,6 +22,8 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User, Permission
 from django.utils.translation import gettext_lazy as _
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, GenericAPIView, RetrieveUpdateAPIView, UpdateAPIView
+
 from .models import User, Profile, Address, SMSVerification, DeactivateUser, NationalIDImage
 # from .serializers import (
 #     ProfileSerializer,
@@ -36,6 +38,7 @@ from .models import User, Profile, Address, SMSVerification, DeactivateUser, Nat
 #     UserPermissionSerializer,
 #     NationalIDImageSerializer,
 # )
+from .serializers import SMSVerificationSerializer, SMSPinSerializer
 # from .send_mail import send_register_mail, send_reset_password_email
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
@@ -167,3 +170,49 @@ class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Gran
 #             {"detail": _("Password reset e-mail has been sent.")},
 #             status=status.HTTP_200_OK,
 #         )
+
+class ResendSMSAPIView(GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = SMSVerificationSerializer
+    allowed_methods = ("POST",)
+
+    def resend_or_create(self):
+        phone = self.request.data.get("phone")
+        send_new = self.request.data.get("new")
+        sms_verification = None
+
+        user = User.objects.filter(profile__phone_number=phone).first()
+
+        if not send_new:
+            sms_verification = (
+                SMSVerification.objects.filter(user=user, verified=False)
+                .order_by("-created")
+                .first()
+            )
+
+        if sms_verification is None:
+            sms_verification = SMSVerification.objects.create(user=user, phone=phone)
+
+        return sms_verification.send_confirmation()
+
+    def post(self, request, *args, **kwargs):
+        success = self.resend_or_create()
+
+        return Response(dict(success=success), status=status.HTTP_200_OK)
+
+
+class VerifySMSView(APIView):
+    permission_classes = [AllowAny]
+    allowed_methods = ("POST", "OPTIONS", "HEAD")
+
+    def get_serializer(self, *args, **kwargs):
+        return SMSPinSerializer(*args, **kwargs)
+
+    def post(self, request, pk):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        pin = int(request.data.get("pin"))
+        # TODO get user SMSVerification instead of below confirmation variable
+        confirmation = get_object_or_404(SMSVerification, pk=pk)
+        confirmation.confirm(pin=pin)
+        return Response("Your Phone Number Is Verfied.", status=status.HTTP_200_OK)
