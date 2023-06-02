@@ -39,7 +39,9 @@ urlpatterns = [
     # re_path(r'^password/reset/$', views.ThePasswordResetView.as_view(), name='password_reset'),
     re_path(r'^authentication/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
      PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-
+#  phone verification endpoint
+    path("verify-sms/<int:pk>/", views.VerifySMSView.as_view()),
+    path("resend-sms/", views.ResendSMSAPIView.as_view()),
 # auth users
     path('user/', UserDetailsView.as_view(), name='rest_user_details'),
     path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
