@@ -6,4 +6,30 @@ Account registration
 For login with social accounts and phonenumbers login with email and phone confirmation  
 an api build with serializers for your frontend of your choice  
 
-###### Endpoints
+##### Endpoints
+
+    # csrftoken
+    'get-csrf-token/'
+    # custom login
+    login/
+    # custom registration
+    dj-rest-auth/registration/
+        # verify
+    dj-rest-auth/registration/verify-email/
+    dj-rest-auth/registration/resend-email/
+    # social accounts login
+    'dj-rest-auth/facebook/'
+    'dj-rest-auth/twitter/'
+    p'dj-rest-auth/google/'
+    # dj-rest-auth logout
+    'logout/'
+    # reset pass
+
+    password/reset/$'
+  authentication/password/reset/confirm/
+#####  phone verification endpoint
+    verify-sms/<int:pk>/", views.VerifySMSView.as_view()),
+    resend-sms/", views.ResendSMSAPIView.as_view()),
+###### auth users
+    'user/'
+    password/change/'
