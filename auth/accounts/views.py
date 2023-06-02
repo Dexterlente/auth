@@ -51,23 +51,27 @@ from dj_rest_auth.views import LoginView, PasswordResetView, PasswordResetConfir
 # from django.core.serializers import serialize
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
-
+from django.views.decorators.csrf import get_token
+from django.http import JsonResponse
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters("password1", "password2")
 )
 
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
+
+
 class LoginAPIView(LoginView):
 # need to fix this overide
-
-    queryset = ""
-    permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
 
     def get_response(self):
         response = super().get_response()
-        
+        user = self.request.user
+
         deactivate = DeactivateUser.objects.filter(user=self.user, deactive=True)
         if deactivate:
             deactivate.update(deactive=False)

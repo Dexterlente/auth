@@ -9,6 +9,7 @@ from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from rest_framework import exceptions
 from django.contrib.auth import authenticate
+from .models import SMSVerification
 
 
 # grace imperio lente
@@ -25,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(required=False, allow_blank=True)
-    username = serializers.CharField(required=False, allow_blank=True)
+    # username = serializers.CharField(required=False, allow_blank=True)
     password = serializers.CharField(style={"input_type": "password"})
 
     def authenticate(self, **kwargs):
@@ -131,16 +132,16 @@ class LoginSerializer(serializers.Serializer):
                     )
                 if not email_address.verified:
                     raise serializers.ValidationError(_("E-mail is not verified."))
-
+    # commented out for now no phone no accounts wont logged
         # If required, is the phone number verified?
-        try:
-            phone_number = user.sms  # .get(phone=user.profile.phone_number)
-        except SMSVerification.DoesNotExist:
-            raise serializers.ValidationError(
-                _("This account don't have Phone Number!")
-            )
-        if not phone_number.verified:
-            raise serializers.ValidationError(_("Phone Number is not verified."))
+        # try:
+        #     phone_number = user.sms  # .get(phone=user.profile.phone_number)
+        # except SMSVerification.DoesNotExist:
+        #     raise serializers.ValidationError(
+        #         _("This account don't have Phone Number!")
+        #     )
+        # if not phone_number.verified:
+        #     raise serializers.ValidationError(_("Phone Number is not verified."))
 
         attrs["user"] = user
         return attrs
