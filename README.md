@@ -31,7 +31,8 @@ an api build with serializers for your frontend of your choice
 #####  phone verification endpoint
     verify-sms/<int:pk>/"
     resend-sms/"
-    Twilio api is used for phone verification
+    Twilio api is used for phone verification  
+    6 digit pin
 ###### auth users
     'user/'
     password/change/'
