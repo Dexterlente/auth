@@ -13,3 +13,5 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Autodiscover tasks in your Django app
 app.autodiscover_tasks()
+
+# Broker is needed
