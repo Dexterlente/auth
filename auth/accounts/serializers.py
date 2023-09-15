@@ -10,6 +10,7 @@ from django.conf import settings
 from rest_framework import exceptions
 from django.contrib.auth import authenticate
 from .models import SMSVerification
+from allauth.account.models import EmailAddress
 
 
 # grace imperio lente
@@ -112,7 +113,7 @@ class LoginSerializer(serializers.Serializer):
             msg = _("please check your username or email or phone number or password.")
             raise exceptions.ValidationError(msg)
 
-        # TODO user can't login if phone number and email address not verified.
+        # TODO user can't login X-CSRFTokenf phone number and email address not verified.
 
         # If required, is the email verified?
         if "rest_auth.registration" in settings.INSTALLED_APPS:
